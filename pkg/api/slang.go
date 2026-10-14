@@ -87,14 +87,10 @@ func (l *slangBundleLoader) Has(opId uuid.UUID) bool {
 }
 
 func (l *slangBundleLoader) List() ([]uuid.UUID, error) {
-	var uuidList []uuid.UUID
-
-	for _, idOrName := range funk.Keys(l.blueprintById).([]string) {
-		if id, err := uuid.Parse(idOrName); err == nil {
-			uuidList = append(uuidList, id)
-		}
+	uuidList := make([]uuid.UUID, 0, len(l.blueprintById))
+	for id := range l.blueprintById {
+		uuidList = append(uuidList, id)
 	}
-
 	return uuidList, nil
 }
 
